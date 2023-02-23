@@ -1,0 +1,10 @@
+.App {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 16px;
+  padding-bottom: 24px;
+}
+.Button {
+  margin: 0 auto;
+  align-items: center;
+}
