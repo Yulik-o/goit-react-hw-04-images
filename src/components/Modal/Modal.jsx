@@ -1,35 +1,39 @@
 // import * as basicLightbox from 'basiclightbox'
-import { Component } from 'react';
+import { useEffect } from 'react';
+import PropTypes from 'prop-types';
+
 import styles from './Modal.module.css';
 
-export class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener('keydown', this.onCloseByEsc);
-  }
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.onCloseByEsc);
-  }
-  onCloseByEsc = event => {
+export function Modal ({onClose, largeImage, tag}) {
+useEffect(() => {
+  const onCloseByEsc = event => {
     if (event.code === 'Escape') {
-      this.props.onClose();
+      onClose();
     }
   };
-  handleClick = event => {
+  window.addEventListener('keydown', onCloseByEsc);
+  return () => {
+     window.removeEventListener('keydown', onCloseByEsc);
+  }
+}, [onClose])
+ 
+  
+  const handleClick = event => {
     if (event.currentTarget === event.target) {
-      this.props.onClose();
+      onClose();
     }
   };
-  render() {
-    const { id, largeImage, tag } = this.props;
+  
+    // const { id, largeImage, tag } = this.props;
     return (
-      <div className={styles.Overlay} onClick={this.handleClick}>
-        <div className={styles.Modal} key={id}>
+      <div className={styles.Overlay} onClick={handleClick}>
+        <div className={styles.Modal}>
           <img src={largeImage} alt={tag} />
         </div>
       </div>
     );
   }
-}
+
 Modal.propTypes = {
   tag: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,

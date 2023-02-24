@@ -1,25 +1,24 @@
 // import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useState } from 'react';
 import { ImSearch } from 'react-icons/im';
 import styles from './SearchBar.module.css';
 
-export class SearchBar extends Component {
-  state = {
-    query: '',
+export function SearchBar (props) {
+  const [query, setQuery] = useState()
+  
+  const handleChange = event => {
+    setQuery(event.target.value);
   };
-  handleChange = event => {
-    this.setState({ query: event.target.value });
-  };
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
-    this.props.formSubmitHandler(this.state.query);
-    this.setState({ query: '' });
+    props.formSubmitHandler(query);
+   setQuery('');
   };
 
-  render() {
+
     return (
       <header className={styles.SearchBar}>
-        <form className={styles.SearchForm} onSubmit={this.handleSubmit}>
+        <form className={styles.SearchForm} onSubmit={handleSubmit}>
           <button type="submit" className={styles.SearchFormButton}>
             <span>
               {' '}
@@ -37,14 +36,14 @@ export class SearchBar extends Component {
             autoFocus
             placeholder="Search images and photos"
             name="img"
-            value={this.state.query}
-            onChange={this.handleChange}
+            value={query}
+            onChange={handleChange}
           />
         </form>
       </header>
     );
   }
-}
+
 
 // SearchBar.propTypes = {
 //   onSubmit: propTypes.func.isRequired,
